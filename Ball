@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Ball : MonoBehaviour
+{
+    public float speed;
+    public Rigidbody2D rb;
+
+
+    public void startBall()
+    {
+        //Shoot ball up
+        rb.AddForce(Vector2.up * speed);
+    }
+
+    //Checks if ball collided with something
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Checks if ball collided with a wall or paddle
+        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("walls") || collision.collider.gameObject.layer == LayerMask.NameToLayer("paddle"))
+        {
+            //Plays bounce sound
+            FindObjectOfType<AudioManager>().Play("bounce");
+        }
+
+        //Checks if ball collided with the floor
+        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("bottom wall"))
+        {
+            //Stops ball moving
+            rb.velocity = Vector3.zero;
+            
+            //Plays death sound
+            FindObjectOfType<AudioManager>().Play("death");
+        }
+    }
+}
