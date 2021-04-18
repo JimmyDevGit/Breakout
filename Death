@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class Death : MonoBehaviour
+{
+    int currentScene;
+
+
+    private void Update()
+    {
+        //Gets current scene number
+        currentScene = SceneManager.GetActiveScene().buildIndex;
+    }
+
+    //Check if ball is hitting the floor
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Plays death sound
+        FindObjectOfType<AudioManager>().Play("death");
+        StartCoroutine(Die());
+    }
+    IEnumerator Die()
+    {
+        //Waits 2 seconds
+        yield return new WaitForSeconds(2);
+
+        //Reloads the current scene
+        SceneManager.LoadScene(currentScene);
+    }
+}
