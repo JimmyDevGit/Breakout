@@ -1,0 +1,83 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+public class Brick : MonoBehaviour
+{
+    [Header("Brick Stuff")]
+    public int health;
+    public Sprite crackedSprite;
+
+    [Header("Power References")]
+    public GameObject powerup;
+    public GameObject powerdown;
+    int rng;
+
+
+    private void Start()
+    {
+        //Gets random number from 1-7
+        rng = Random.Range(1, 7);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+        //Check if health is 0
+        if (health <= 0)
+        {
+            //Plays crack sound
+            FindObjectOfType<AudioManager>().Play("crack");
+
+            //Checks if random number is 1
+            if(rng == 1 && GameObject.Find("PowerPlayer(Clone)") == null && GameObject.Find("PowerDownPlayer(Clone)") == null)
+            {
+                //Drop powerup
+                Instantiate(powerup, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+            }
+
+            //Checks if random number is 2
+            if (rng == 2 && GameObject.Find("PowerDownPlayer(Clone)") == null && GameObject.Find("PowerPlayer(Clone)") == null)
+            {
+                //Drops power down
+                Instantiate(powerdown, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+            }
+
+            //Destroys this brick
+            Destroy(gameObject);
+        }
+    }
+    private void ImpactSound()
+    {
+        //Plays impact sound
+        FindObjectOfType<AudioManager>().Play("impact");
+    }
+
+    //Check if somehting is hits the brick
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Remove 1 health on collision
+        health = health-1;
+
+        //Check if health is not 0
+        if (health >= 1)
+        {
+            //Check if health is greater than 1
+            if(health > 1)
+            {
+                //Plays metal sound
+                FindObjectOfType<AudioManager>().Play("metal");
+            }
+
+            //check if health is 1
+            if(health == 1)
+            {
+                //Play impact sound
+                ImpactSound();
+
+                //Changes sprite to cracked brick
+                gameObject.GetComponent<SpriteRenderer>().sprite = crackedSprite;
+            }
+        }
+    }
+}
