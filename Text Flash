@@ -1,0 +1,33 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class TextFlash : MonoBehaviour
+{
+    private TMP_Text m_TextComponent;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        //Accesses text
+        m_TextComponent = GetComponent<TMP_Text>();
+
+        //Two timers oscillate every 10th of a second
+        InvokeRepeating("OutputTime", 0.1f, 0.2f);  //0.1s delay, repeat every 0.2s
+        InvokeRepeating("OutputTime2", 0.2f, 0.2f);  //0.2s delay, repeat every 0.2s
+    }
+
+    void OutputTime()
+    {
+        //Changes text color to red
+        m_TextComponent.color = new Color32(255, 17, 0, 255);
+    }
+
+    void OutputTime2()
+    {
+        //Changes text color to white
+        m_TextComponent.color = new Color32(255, 255, 0, 255);
+    }
+}
