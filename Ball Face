@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BallFace : MonoBehaviour
+{
+    public float speed;
+    public Rigidbody2D rb;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        //Shoot ball up
+        rb.AddForce(Vector2.up * speed);
+        
+        //Shoot ball right
+        rb.AddForce(Vector2.right * speed);
+    }
+}
