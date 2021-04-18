@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class ChildCounter : MonoBehaviour
+{
+    int currentScene;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        //Gets current scene number
+        currentScene = SceneManager.GetActiveScene().buildIndex;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+        //Checks if children of GameObject "Brick" have 0 children
+        if(transform.childCount < 1)
+        {
+            //Loads next scene
+            SceneManager.LoadScene(currentScene + 1);
+        }
+    }
+}
