@@ -1,0 +1,66 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public class PowerPaddle : MonoBehaviour
+{
+    [Header("PowerPaddle Restrictions")]
+    public float speed;
+    public float leftScreenEdge;
+    public float rightScreenEdge;
+
+    [Header("Other Paddle References")]
+    public GameObject powerPlayer;
+    public GameObject player;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        StartCoroutine(timer());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //Accessing input methods from unity
+        float horizontal = Input.GetAxis("Horizontal");
+
+        //Moving left to right
+        transform.Translate(Vector2.right * horizontal * Time.deltaTime * speed);
+
+        //Check if paddle is too far left 
+        if (transform.position.x < leftScreenEdge)
+        {
+            //Stop paddle on left of screen
+            transform.position = new Vector2(leftScreenEdge, transform.position.y);
+        }
+
+        //Check if paddle is too far right
+        if (transform.position.x > rightScreenEdge)
+        {
+            //Stop paddle on right of screen
+            transform.position = new Vector2(rightScreenEdge, transform.position.y);
+        }
+    }
+    IEnumerator timer()
+    {
+        //Waits 9 seconds before starting next CoRoutine
+        yield return new WaitForSeconds(9f);
+        StartCoroutine(timerFade());
+    }
+    IEnumerator timerFade()
+    {
+        //Change transparency of sprite to 30%
+        Color tmp = GetComponent<SpriteRenderer>().color;
+        tmp.a = 0.3f;
+        GetComponent<SpriteRenderer>().color = tmp;
+
+        //Wait 1 second
+        yield return new WaitForSeconds(1f);
+
+        //Destroy this paddle
+        Destroy(gameObject);
+    }
+}
