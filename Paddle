@@ -1,0 +1,90 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public class Paddle : MonoBehaviour
+{
+    [Header("Paddle Restrictions")]
+    public float speed;
+    public float leftScreenEdge;
+    public float rightScreenEdge;
+
+    [Header("Power References")]
+    public GameObject powerPlayer;
+    public GameObject powerDownPlayer;
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        //Accessing input methods from unity
+        float horizontal = Input.GetAxis("Horizontal");
+
+        //Moving left to right
+        transform.Translate(Vector2.right * horizontal * Time.deltaTime * speed);
+
+        //Check if paddle is too far left 
+        if (transform.position.x < leftScreenEdge) 
+        {
+            //Stop paddle on left of screen
+            transform.position = new Vector2(leftScreenEdge, transform.position.y);
+        }
+
+        //Check if paddle is too far right
+        if (transform.position.x > rightScreenEdge)
+        {
+            //Stop paddle on right of screen
+            transform.position = new Vector2(rightScreenEdge, transform.position.y);
+        }
+    }
+
+    //Checks if paddle collided with something
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Checks if collision was with powerup
+        if (collision.gameObject.CompareTag("powerup"))
+        {
+            //Plays powerup sound
+            FindObjectOfType<AudioManager>().Play("powerup");
+
+            //Spawns powerpaddle
+            Instantiate(powerPlayer, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+
+            //Destroys powerup
+            Destroy(collision.gameObject);
+        }
+
+        //Checks if collision was with powerdown
+        if (collision.gameObject.CompareTag("powerdown"))
+        {
+            //Plays powerdown sound
+            FindObjectOfType<AudioManager>().Play("powerdown");
+
+            //Spawns poweredown paddle
+            Instantiate(powerDownPlayer, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+
+            //Disables THIS paddles collider
+            GetComponent<PolygonCollider2D>().enabled = false;
+
+            //Disabels THIS paddles sprite
+            GetComponent<SpriteRenderer>().enabled = false;
+
+            //Destroys powerdown
+            Destroy(collision.gameObject);
+
+            StartCoroutine(timer());
+        }
+    }
+    IEnumerator timer()
+    {
+        //Waits 10 seconds
+        yield return new WaitForSeconds(10f);
+
+        //Enables THIS paddles collider
+        GetComponent<PolygonCollider2D>().enabled = true;
+
+        //Enables THIS paddles sprite
+        GetComponent<SpriteRenderer>().enabled = true;
+    }
+}
