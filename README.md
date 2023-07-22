@@ -28,7 +28,7 @@ Revisit the iconic game of Breakout. Use your paddle to direct the ball towards 
 Browser for WebGL.
 
 ### Installation
-* Itch: https://scheisse-house-games.itch.io/breakout
+* Itch: https://jimmygame.itch.io/breakout
 
 ## Gameplay
 Use arrow keys to move paddle.
