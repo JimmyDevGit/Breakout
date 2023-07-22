@@ -15,7 +15,7 @@ Enjoy the classic game of Breakout, a 2D arcade game where you must break throug
 ## About The Game
 Revisit the iconic game of Breakout. Use your paddle to direct the ball towards bricks, breaking them on impact and progressing through the game. Be sure to prevent the ball from falling past your paddle.
 
-[![Game Screenshot](https://github.com/JimmyDevGit/Breakout/blob/main/BrickBreakerThumbnail.png)
+![Game Screenshot](https://github.com/JimmyDevGit/Breakout/blob/main/BrickBreakerThumbnail.png)
 
 ## Game Features
 * **Classic Gameplay**: Engage in the traditional Breakout game mechanics.
